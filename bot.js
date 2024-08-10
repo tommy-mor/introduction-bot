@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Permissions, MessageAttachment } = require('discord.js');
+const { Client, GatewayIntentBits, PermissionsBitField, AttachmentBuilder, ChannelType } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -17,7 +17,6 @@ const client = new Client({
 const TOKEN = config.token;
 const CHALLENGE_ROLE_NAME = config.challengeRoleName;
 const QUESTION = config.question;
-const IMAGE_PATH = path.join(__dirname, config.imagePath);
 
 client.once('ready', () => {
   console.log('Bot is ready!');
@@ -35,28 +34,26 @@ client.on('guildMemberAdd', async (member) => {
   // Create a new channel for the user
   const channel = await guild.channels.create({
     name: `challenge-${member.user.username}`,
-    type: 'text',
+    type: ChannelType.GuildText,
     permissionOverwrites: [
       {
         id: guild.id,
-        deny: [Permissions.FLAGS.VIEW_CHANNEL],
+        deny: [PermissionsBitField.Flags.ViewChannel],
       },
       {
         id: member.id,
-        allow: [Permissions.FLAGS.VIEW_CHANNEL],
+        allow: [PermissionsBitField.Flags.ViewChannel],
       },
       {
         id: challengeRole.id,
-        allow: [Permissions.FLAGS.VIEW_CHANNEL],
+        allow: [PermissionsBitField.Flags.ViewChannel],
       },
     ],
   });
 
   // Send the challenge question and image
-  const attachment = new MessageAttachment(IMAGE_PATH);
   await channel.send({
     content: `Welcome ${member}! Here's your challenge:\n\n${QUESTION}`,
-    files: [attachment],
   });
 });
 
