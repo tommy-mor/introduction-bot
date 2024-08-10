@@ -2,6 +2,9 @@ const { Client, GatewayIntentBits, Permissions, MessageAttachment } = require('d
 const fs = require('fs');
 const path = require('path');
 
+// Read configuration from JSON file
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -11,10 +14,10 @@ const client = new Client({
   ],
 });
 
-const TOKEN = 'YOUR_BOT_TOKEN_HERE';
-const CHALLENGE_ROLE_NAME = 'srelg';
-const QUESTION = 'What do you think about pineapple on pizza?';
-const IMAGE_PATH = path.join(__dirname, 'challenge_image.png'); // Make sure to have this image in your bot's directory
+const TOKEN = config.token;
+const CHALLENGE_ROLE_NAME = config.challengeRoleName;
+const QUESTION = config.question;
+const IMAGE_PATH = path.join(__dirname, config.imagePath);
 
 client.once('ready', () => {
   console.log('Bot is ready!');

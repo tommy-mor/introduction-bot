@@ -1,0 +1,6 @@
+{
+    "token": "YOUR_BOT_TOKEN_HERE",
+    "challengeRoleName": "YOUR CHALLENGE ROLE NAME HERE",
+    "question": "What do you think about pineapple on pizza?",
+    "imagePath": "challenge_image.png"
+}
